@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="app.min.css">
+    <style>
+     
+    </style>
+  </head>
+
+  <body>
+  
+    <script src="zepto.js"></script>
+    <script src="app.min.js"></script>
+    <script type="text/javascript">
+    if(typeof(Storage) !== "undefined"){
+       // localStorage.setItem("name", "Rob");
+        //alert(localStorage.getItem("name"));
+        var names = [];
+        names[0] = prompt("New number name!");
+        localStorage.setItem("names", JSON.stringify(names));
+
+        var storedNames = JSON.parse(localStorage.getItem("names"));
+        alert(names[0]);
+    } else {
+        alert("bad");
+    }
+    </script>
+  </body>
+</html>
