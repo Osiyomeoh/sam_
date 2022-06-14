@@ -1,144 +1,177 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>My App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-    <link rel="stylesheet" href="app.min.css">
-    <style>
-     ul.colour-picker li {
-				position: relative;
-				display: block;
-				float: left;
-				height: 54px;
-				width: 25%;
-				-webkit-box-sizing: border-box;
-				box-sizing: border-box;
-			}
-			ul.colour-picker li[data-colour="teal"] {
-				background: #2B9;
-			}
-			ul.colour-picker li[data-colour="green"] {
-				background: #3C7;
-			}
-			ul.colour-picker li[data-colour="yellow"] {
-				background: #EC1;
-			}
-			ul.colour-picker li[data-colour="orange"] {
-				background: #E82;
-			}
-			ul.colour-picker li[data-colour="red"] {
-				background: #E54;
-			}
-			ul.colour-picker li[data-colour="blue"] {
-				background: #39D;
-			}
-			ul.colour-picker li[data-colour="dark-blue"] {
-				background: #345;
-			}
-			ul.colour-picker li[data-colour="white"] {
-				background: #FFF;
-			}
-			ul.colour-picker li.active:before {
-				position: absolute;
-				height: 100%;
-				width: 100%;
-				background: rgba(0,0,0,0.1);
-				content: "";
-			}
-    </style>
-  </head>
 
-  <body>
-    <div class="app-page" data-page="home">
-      <div class="app-topbar">
-        <div class="app-title">Home page</div>
-      </div>
-      <div class="app-content">
-        <div class="app-section">
-          <p class="app-section">
-            Welcome to the App.js default theme. Click around to see what each widget looks like.
-          </p>
-          <div class="app-section">
-            <b>Topbar colours:</b><br>
-            <ul class="colour-picker">
-              <li data-colour="teal"></li>
-              <li data-colour="green"></li>
-              <li data-colour="yellow"></li>
-              <li data-colour="orange"></li>
-              <li data-colour="red"></li>
-              <li data-colour="blue"></li>
-              <li data-colour="dark-blue"></li>
-              <li data-colour="white"></li>
-              <div class="clear"></div>
-            </ul>
-          </div>
-          <div class="app-section">
-            <div class="app-button" data-target="lists">Lists</div>
-            <div class="app-button" data-target="buttons">Buttons</div>
-            <div class="app-button" data-target="inputs">Inputs</div>
-            <div class="app-button" data-target="scroll">Scrolling</div>
-          </div>
-          <div class="app-button" data-target="page2">Go to Page 2</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="app-page" data-page="page2">
-      <div class="app-topbar">
-        <div class="app-button left" data-back data-autotitle></div>
-        <div class="app-title">Page 2</div>
-      </div>
-      <div class="app-content">
-        Page 2 is lonely
-      </div>
-    </div>
-
-    <script src="zepto.js"></script>
-    <script src="app.min.js"></script>
-    <script>
-      var oldColour = "";
-      function setupPagecolor (page){
-        $(page).find('ul.colour-picker li')
-					.clickable()
-					.on('click', function () {
-						var colour = $(this).data('colour');
-          if(oldColour != ""){  
-            $(".app-topbar").removeClass(oldColour);}
-            $(".app-topbar").addClass(colour);
-            oldColour = colour;
-
-      });
-    }
-
-      App.controller('home', function (page) {
-        setupPagecolor(page);
-      });
-
-      App.controller('page2', function (page) {
-        setupPagecolor(page);
-      });
-      App.controller('lists', function (page) {
-        setupPagecolor(page);
-      });
-      App.controller('buttons', function (page) {
-        setupPagecolor(page);
-        $(page).find('.menu')
-					.on('click', function () {
-						App.dialog({
-							title        : 'This is a Dialog',
-							text         : 'Say stuff to the user and get them to respond',
-							okButton     : 'Submit',
-							cancelButton : 'Cancel'
-						}, function (choice) {
-							console.log(choice);
-						});
-					});
-			});
-      try {
-        App.restore();
-      } catch (err) {
-        App.load('home');
+<head>
+  <title>My App</title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="app.min.css">
+  <style>
+    @keyframes pulse {
+      0% {
+        background-color: #CCC;
       }
-    </script>
-  </body>
+
+      25% {
+        background-color: #EEE;
+      }
+
+      50% {
+        background-color: #CCC;
+      }
+
+      75% {
+        background-color: #EEE;
+      }
+
+      100% {
+        background-color: #CCC;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-page" data-page="home">
+    <div class="app-topbar blue">
+      <div class="app-title" id="contact-list">Send An Email</div>
+    </div>
+    <div class="app-content">
+      <div class="app-section" id="message">
+       
+      </div>
+      <p class="app-section">
+        Click below to send an email!
+      </p>
+
+      <div class="app-section">
+        <div class="app-button" data-target="sendemail">Lists</div>
+
+      </div>
+      <div class="app-button" id="new-user">Send to new user</div>
+    </div>
+  </div>
+  </div>
+
+  <div class="app-page" data-page="sendemail">
+    <div class="app-topbar">
+      <div class="app-title">Send Email</div>
+      <div class="right app-button" data-back>Done</div>
+    </div>
+
+    <div class="app-content">
+
+      <div class="app-section">
+        From: <input class="app-input" id="sender-email" placeholder="Sender Email Address">
+      </div>
+      <div class="app-section">
+        To: <input class="app-input" id="recipient-email" placeholder="Recipient Email Address">
+      </div>
+      <form class="app-section">
+        <input class="app-input" name="subject" placeholder="Subject" id="subject">
+        <textarea class="app-input" name="message" placeholder="Message" id="content"></textarea>
+        <div class="app-button green app-submit" id="send-button">Send</div>
+      </form>
+    </div>
+  </div>
+
+
+  <script src="zepto.js"></script>
+  <script src="app.min.js"></script>
+  <script>
+
+
+    App.controller('home', function (page) {
+      if (typeof localStorage !== 'undefined') {
+        $(page).find("new-user")
+          .clickable()
+          .click(function () {
+            if (localStorage.getItem("recipient-email") !== null){
+          localStorage.removeItem("recipient-email");
+            }
+            App.load("sendemail");
+          });
+        
+
+        if (localStorage.getItem("recipient-list") !== null) {
+          var recipientList = JSON.parse(localStorage.getItem("recipient-list"));
+          $.each(recipientList, function (index, value) {
+            $(page).find("#contact-list").append(
+              '<div class="app-button redirect">' + value + '</div>');
+
+            $(page).find("#contact-list").show();
+            $(page).find(".redirect").clickable()
+              .on("click", function () {
+                localStorage.setItem("recipient-email", $(this).html());
+
+                App.load('sendemail');
+              })
+          });
+        } else {
+          $(page).find("#contact-list").hide();
+        }
+      }
+    });
+    App.controller('sendemail', function (page) {
+     $(page).find("#message").hide();
+      if (typeof localStorage !== 'undefined') {
+        if (localStorage.getItem("sender-email") !== null) {
+          $(page).find("#sender-email").val(localStorage.getItem("sender-email"));
+        }
+        if (localStorage.getItem("recipient-email") !== null) {
+          $(page).find("#recipient-email").val(localStorage.getItem("recipient-email"));
+        }
+      }
+      $(page).find('#send-button')
+        .clickable()
+        .on('click', function () {
+          $.ajax({
+  type: 'GET',
+  url: '/projects',
+  // data to be added to query string:
+  data: { to: $("recipient-email").val(), from: $("#sender-email").val(),
+content: $("content").val() },
+  // type of data we are expecting in return:
+  dataType: 'jsonp',
+  timeout: 300,
+  context: $('body'),
+  success: function(data){
+  if(data.success == true){
+    $(page).find("message").html(
+      "Your email was sent successfully!").show();
+  } else {
+    $(page).find("message").html(
+      "Your email could not be sent - please try again later.").show();
+  }
+  },
+  error: function(xhr, type){
+    $(page).find("message").html(
+      "Your email could not be sent - please try again later.").show();
+  }
+})
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem("sender-email", $("#sender-email").val());
+            var recipientList = new Array();
+            if (localStorage.getItem("recipient-list") !== null) {
+              recipientList = JSON.parse(localStorage.getItem("recipient-list"));
+            };
+            if ($.inArray($("#recipient-email").val(), recipientList) == -1) {
+              recipientList.push($('#recipient-email').val());
+              localStorage.setItem("recipient-list", JSON.stringify(recipientList))
+              console.log(recipientList);
+            }
+          } else {
+
+          }
+
+        });
+    });
+    try {
+      App.restore();
+    } catch (err) {
+      App.load('home');
+    }
+  </script>
+</body>
+
 </html>
